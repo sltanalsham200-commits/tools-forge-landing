@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Forge - أدوات API للمطورين العرب</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo" onclick="showSection('home')">⚡ Tools Forge</div>
+            <button class="menu-btn" onclick="openDrawer()">☰</button>
+        </div>
+    </nav>
+
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <aside class="drawer" id="drawer">
+        <div class="drawer-header">
+            <div class="title">⚡ Tools Forge</div>
+            <button class="close-btn" onclick="closeDrawer()">✕</button>
+        </div>
+        <nav class="drawer-nav">
+            <a onclick="navigate('home')"><span class="icon">🏠</span> الرئيسية</a>
+            <a onclick="navigate('tools')"><span class="icon">🛠️</span> الأدوات</a>
+            <a onclick="navigate('pricing')"><span class="icon">💰</span> الأسعار</a>
+            <a onclick="navigate('contact')"><span class="icon">📬</span> التواصل</a>
+        </nav>
+        <div class="drawer-footer">© 2026 Tools Forge</div>
+    </aside>
+
+    <section class="page-section active" id="home">
+        <div class="container">
+            <div class="hero">
+                <span class="welcome-icon">👋</span>
+                <h1>أهلاً بك في Tools Forge</h1>
+                <p>منصة <span class="highlight">أدوات API</span> مصممة خصيصاً للمطورين العرب. نوفر لك حلولاً جاهزة توفر وقتك وتُبسّط مشاريعك البرمجية. من تحويل البيانات إلى معالجة النصوص، كل ما تحتاجه في مكان واحد.</p>
+                <div>
+                    <a onclick="navigate('tools')" class="btn">🛠️ اكتشف أدواتنا</a>
+                    <a onclick="navigate('pricing')" class="btn btn-outline">💰 اطلع على الأسعار</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>🛠️ <span class="accent">أدواتنا</span></h2>
+                <p>محفظة متنامية من الأدوات للمطورين</p>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="icon">📊</div>
+                    <h3>Smart Data Converter</h3>
+                    <p>حوّل ملفات CSV و HTML إلى JSON نظيف ومنظم في ثوانٍ.</p>
+                    <ul class="features">
+                        <li>✅ إزالة التكرارات تلقائياً</li>
+                        <li>✅ توحيد أسماء الحقول</li>
+                        <li>✅ دعم الأرقام العربية</li>
+                    </ul>
+                    <span class="status status-active">✅ متاح الآن</span>
+                    <div class="actions">
+                        <a href="https://smart-data-converter.onrender.com/docs" class="btn" target="_blank" style="padding:10px 20px;font-size:0.9rem;">🚀 تجربة</a>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="icon">🌐</div>
+                    <h3>Arabic Text Normalizer</h3>
+                    <p>توحيد النصوص العربية: إزالة التشكيل، تصحيح الهمزات، تحويل الأرقام.</p>
+                    <ul class="features">
+                        <li>✅ إزالة التشكيل الزائد</li>
+                        <li>✅ توحيد الهمزات (أ/إ/ا)</li>
+                        <li>✅ تحويل الأرقام العربية</li>
+                    </ul>
+                    <span class="status status-soon">⏳ قريباً</span>
+                </div>
+
+                <div class="tool-card">
+                    <div class="icon">🔐</div>
+                    <h3>Secure Code Generator</h3>
+                    <p>توليد أكواد تحقق آمنة بأطوال وأنواع قابلة للتخصيص.</p>
+                    <ul class="features">
+                        <li>✅ أكواد رقمية/أبجدية/مختلطة</li>
+                        <li>✅ أطوال قابلة للتخصيص</li>
+                        <li>✅ تشفير آمن</li>
+                    </ul>
+                    <span class="status status-soon">⏳ قريباً</span>
+                </div>
+
+                <div class="tool-card">
+                    <div class="icon">📅</div>
+                    <h3>Business Days Calculator</h3>
+                    <p>حساب أيام العمل بين تاريخين مع استثناء العطلات.</p>
+                    <ul class="features">
+                        <li>✅ استثناء عطلات نهاية الأسبوع</li>
+                        <li>✅ دعم العطلات الرسمية</li>
+                        <li>✅ نتائج فورية</li>
+                    </ul>
+                    <span class="status status-soon">⏳ قريباً</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>💰 <span class="accent">خطط الأسعار</span></h2>
+                <p>اختر الخطة المناسبة لاحتياجك</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>مجاني</h3>
+                    <div class="amount">0$</div>
+                    <ul>
+                        <li>✅ 500 استدعاء شهرياً</li>
+                        <li>✅ دعم أساسي</li>
+                        <li>✅ وصول لـ Smart Data Converter</li>
+                    </ul>
+                    <button onclick="navigate('contact')" class="btn btn-outline" style="width:100%;">ابدأ مجاناً</button>
+                </div>
+                <div class="price-card featured">
+                    <h3>أساسي</h3>
+                    <div class="amount">9$<span>/شهر</span></div>
+                    <ul>
+                        <li>✅ 5,000 استدعاء شهرياً</li>
+                        <li>✅ دعم فني</li>
+                        <li>✅ وصول لكل الأدوات</li>
+                        <li>✅ تحديثات مستمرة</li>
+                    </ul>
+                    <button onclick="navigate('contact')" class="btn" style="width:100%;">اشترك الآن</button>
+                </div>
+                <div class="price-card">
+                    <h3>متقدم</h3>
+                    <div class="amount">29$<span>/شهر</span></div>
+                    <ul>
+                        <li>✅ 50,000 استدعاء شهرياً</li>
+                        <li>✅ دعم ذو أولوية</li>
+                        <li>✅ ميزات مخصصة</li>
+                        <li>✅ وصول مبكر للأدوات الجديدة</li>
+                    </ul>
+                    <button onclick="navigate('contact')" class="btn btn-outline" style="width:100%;">اشترك الآن</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>📬 <span class="accent">تواصل معنا</span></h2>
+                <p>اقترح أداة، أبلغ عن مشكلة، أو اطلب تطويراً</p>
+            </div>
+            <div class="form-section">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label>الاسم</label>
+                        <input type="text" id="name" placeholder="اسمك الكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع الرسالة</label>
+                        <select id="type">
+                            <option value="اقتراح أداة">💡 اقتراح أداة جديدة</option>
+                            <option value="الإبلاغ عن مشكلة">🐛 الإبلاغ عن مشكلة</option>
+                            <option value="طلب تطوير">🚀 طلب تطوير / ميزة</option>
+                            <option value="استفسار">❓ استفسار عام</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>الرسالة</label>
+                        <textarea id="message" placeholder="اكتب رسالتك بالتفصيل..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width:100%;">📤 إرسال الرسالة</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="toast" id="toast">تم الإرسال!</div>
+    <script src="js/script.js"></script>
+</body>
+</html>
