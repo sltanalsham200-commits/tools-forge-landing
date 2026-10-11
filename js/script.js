@@ -32,7 +32,7 @@ function showToast(msg, isError) {
 
 async function sendMessage(text) {
     try {
-        const res = await fetch('/functions/api/send', {
+        const res = await fetch('/api/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text })
