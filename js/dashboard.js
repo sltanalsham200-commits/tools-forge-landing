@@ -240,8 +240,22 @@
       // Modal-like alert showing full key
       showAlert(dashAlert,
         `<b>✅ تم إنشاء المفتاح. انسخه الآن — لن يظهر مرة أخرى:</b>
-         <div class="mono" style="background:#232d5c;padding:10px;border-radius:8px;margin-top:8px;word-break:break-all">${esc(data.plaintext)}</div>`,
+         <div class="mono" style="background:#232d5c;padding:10px;border-radius:8px;margin-top:8px;word-break:break-all">${esc(data.plaintext)}</div>
+         <div style="margin-top:10px">
+           <button class="btn btn-sm" id="goto-docs-btn" style="cursor:pointer;">📖 انتقل للتوثيق →</button>
+         </div>`,
         "ok");
+
+      setTimeout(() => {
+        const gotoBtn = document.getElementById("goto-docs-btn");
+        if (gotoBtn) {
+          gotoBtn.addEventListener("click", () => {
+            const tab = document.querySelector('[data-dtab="docs"]');
+            if (tab) tab.click();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
+      }, 50);
       // Extend alert duration for key
       await navigator.clipboard.writeText(data.plaintext).catch(() => {});
       await loadKeys();
