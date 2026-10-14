@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة التحكم — Tools Forge</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#0b1026; --bg2:#131a3a; --card:#1a2247; --card2:#232d5c;
+  --accent:#2fb8ff; --accent2:#6c5ce7; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  --text:#e6ecff; --muted:#98a2c0; --border:#2b3566;
+  --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  background:linear-gradient(160deg,var(--bg) 0%,#0a0d1f 100%);
+  color:var(--text); line-height:1.6; min-height:100vh; padding:0;
+}
+.container{max-width:900px;margin:0 auto;padding:16px}
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:rgba(19,26,58,.7);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
+}
+.logo{font-weight:800;font-size:1.15rem;color:var(--text);text-decoration:none}
+.logo span{color:var(--accent)}
+.btn{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff;border:0;border-radius:10px;padding:10px 18px;
+  font-size:.95rem;font-weight:600;cursor:pointer;transition:opacity .15s;
+}
+.btn:hover{opacity:.9}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.btn-sm{padding:6px 12px;font-size:.85rem}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;margin-bottom:16px;box-shadow:var(--shadow);
+}
+.card h2{margin-bottom:12px;font-size:1.05rem;color:var(--accent)}
+.card h3{margin-bottom:8px;font-size:.95rem;color:var(--muted);font-weight:600}
+label{display:block;margin-bottom:6px;font-size:.9rem;color:var(--muted)}
+input,select{
+  width:100%;padding:11px 12px;border-radius:10px;
+  border:1px solid var(--border);background:var(--card2);color:var(--text);
+  font-size:1rem;font-family:inherit;
+}
+input:focus,select:focus{outline:0;border-color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.row>*{flex:1;min-width:180px}
+.pill{
+  display:inline-block;padding:3px 10px;border-radius:999px;
+  font-size:.78rem;font-weight:600;background:var(--card2);color:var(--muted);
+}
+.pill.ok{background:rgba(34,197,94,.15);color:var(--ok)}
+.pill.warn{background:rgba(245,158,11,.15);color:var(--warn)}
+.pill.err{background:rgba(239,68,68,.15);color:var(--err)}
+.muted{color:var(--muted);font-size:.9rem}
+.hr{height:1px;background:var(--border);margin:16px 0;border:0}
+.key-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px;border-radius:10px;background:var(--card2);margin-bottom:8px;
+  gap:10px;flex-wrap:wrap;
+}
+.key-row .meta{flex:1;min-width:150px}
+.key-row .meta b{display:block;color:var(--text)}
+.key-row .meta small{color:var(--muted);font-size:.82rem}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
+.progress{
+  height:10px;background:var(--card2);border-radius:999px;overflow:hidden;margin:8px 0;
+}
+.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+.alert{padding:12px 14px;border-radius:10px;margin-bottom:12px;font-size:.9rem}
+.alert-ok{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#b5f4c8}
+.alert-err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);color:#fecaca}
+.alert-warn{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);color:#fde68a}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+.tab{
+  padding:10px 16px;cursor:pointer;background:none;border:0;color:var(--muted);
+  border-bottom:2px solid transparent;font-size:.92rem;white-space:nowrap;
+}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.hidden{display:none!important}
+code{background:var(--card2);padding:2px 6px;border-radius:4px;font-size:.85rem}
+pre{background:var(--card2);padding:14px;border-radius:10px;overflow-x:auto;font-size:.82rem;line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">Tools Forge <span>⚡</span></a>
+  <div id="header-actions"></div>
+</header>
+
+<div class="container">
+
+  <!-- ============ AUTH VIEW ============ -->
+  <section id="auth-view">
+    <div class="card" style="margin-top:24px">
+      <h2 id="auth-title">تسجيل الدخول</h2>
+
+      <div class="tabs" style="margin-top:12px">
+        <button class="tab active" data-tab="login">تسجيل الدخول</button>
+        <button class="tab" data-tab="signup">حساب جديد</button>
+      </div>
+
+      <div id="alert-slot"></div>
+
+      <form id="auth-form" autocomplete="on">
+        <div class="row">
+          <div>
+            <label for="email">البريد الإلكتروني</label>
+            <input id="email" type="email" required autocomplete="email">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="password">كلمة المرور</label>
+            <input id="password" type="password" required minlength="8" autocomplete="current-password">
+          </div>
+        </div>
+        <button class="btn" type="submit" id="auth-submit">دخول</button>
+      </form>
+
+      <hr class="hr">
+      <p class="muted">
+        عند التسجيل تحصل تلقائياً على خطة <b>Free</b> (500 طلب/شهر).
+        تحتاج تأكيد البريد الإلكتروني قبل أول دخول.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ DASHBOARD VIEW ============ -->
+  <section id="dashboard-view" class="hidden">
+
+    <div class="tabs" style="margin-top:16px">
+      <button class="tab active" data-dtab="overview">نظرة عامة</button>
+      <button class="tab" data-dtab="keys">مفاتيح API</button>
+      <button class="tab" data-dtab="usage">الاستخدام</button>
+      <button class="tab" data-dtab="payments">المدفوعات</button>
+      <button class="tab" data-dtab="docs">التوثيق</button>
+    </div>
+
+    <div id="dash-alert"></div>
+
+    <!-- Overview -->
+    <div class="dash-panel" data-panel="overview">
+      <div class="card">
+        <h2>الحساب</h2>
+        <div id="account-info"></div>
+      </div>
+      <div class="card">
+        <h2>الخطة الحالية</h2>
+        <div id="plan-info"></div>
+      </div>
+    </div>
+
+    <!-- Keys -->
+    <div class="dash-panel hidden" data-panel="keys">
+      <div class="card">
+        <h2>إنشاء مفتاح جديد</h2>
+        <div class="row">
+          <div>
+            <label for="key-name">اسم المفتاح (اختياري)</label>
+            <input id="key-name" type="text" placeholder="مثال: My App" maxlength="64">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn" id="create-key-btn">إنشاء</button>
+          </div>
+        </div>
+        <p class="muted">⚠️ سيظهر المفتاح الكامل مرة واحدة فقط. احفظه فوراً.</p>
+      </div>
+      <div class="card">
+        <h2>مفاتيحك</h2>
+        <div id="keys-list"><p class="muted">جارٍ التحميل...</p></div>
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="dash-panel hidden" data-panel="usage">
+      <div class="card">
+        <h2>الاستخدام هذا الشهر</h2>
+        <div id="usage-info"></div>
+      </div>
+    </div>
+
+    <!-- Payments -->
+    <div class="dash-panel hidden" data-panel="payments">
+      <div class="card">
+        <h2>الترقية</h2>
+        <p class="muted">سيتوفر الدفع قريباً عبر USDT.</p>
+        <div id="plans-list" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h2>سجل المدفوعات</h2>
+        <div id="payments-list"></div>
+      </div>
+    </div>
+
+    <!-- Docs -->
+    <div class="dash-panel hidden" data-panel="docs">
+      <div class="card">
+        <h2>مثال سريع (cURL)</h2>
+<pre>curl -X POST https://smart-data-converter.onrender.com/v1/convert/csv \
+  -H "X-API-Key: tf_live_YOUR_KEY" \
+  -F "file=@data.csv"</pre>
+      </div>
+      <div class="card">
+        <h2>مثال Python</h2>
+<pre>import requests
+
+r = requests.post(
+    "https://smart-data-converter.onrender.com/v1/convert/csv",
+    headers={"X-API-Key": "tf_live_YOUR_KEY"},
+    files={"file": open("data.csv", "rb")},
+)
+print(r.json())</pre>
+      </div>
+      <div class="card">
+        <h2>مثال JavaScript</h2>
+<pre>const fd = new FormData();
+fd.append("file", fileInput.files[0]);
+
+const r = await fetch(
+  "https://smart-data-converter.onrender.com/v1/convert/csv",
+  {
+    method: "POST",
+    headers: { "X-API-Key": "tf_live_YOUR_KEY" },
+    body: fd,
+  }
+);
+const data = await r.json();</pre>
+      </div>
+      <div class="card">
+        <h2>التوثيق الكامل</h2>
+        <p><a href="https://smart-data-converter.onrender.com/docs" target="_blank" style="color:var(--accent)">فتح Swagger UI →</a></p>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<script src="js/dashboard-config.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
