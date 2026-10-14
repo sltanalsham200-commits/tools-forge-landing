@@ -29,6 +29,10 @@
             <a onclick="navigate('tools')"><span class="icon">🛠️</span> الأدوات</a>
             <a onclick="navigate('pricing')"><span class="icon">💰</span> الأسعار</a>
             <a onclick="navigate('contact')"><span class="icon">📬</span> التواصل</a>
+                <a onclick="navigate('privacy')"><span class="icon">🔒</span> الخصوصية</a>
+                <a onclick="navigate('terms')"><span class="icon">📜</span> الشروط</a>
+                <a onclick="navigate('refund')"><span class="icon">💵</span> الاسترداد</a>
+                <a onclick="navigate('support')"><span class="icon">❓</span> الدعم</a>
                 <a href="/dashboard.html" style="text-decoration:none;color:inherit;"><span class="icon">🔐</span> لوحة التحكم</a>
         </nav>
         <div class="drawer-footer">© 2026 Tools Forge</div>
@@ -179,6 +183,138 @@
                     </div>
                     <button type="submit" class="btn" style="width:100%;">📤 إرسال الرسالة</button>
                 </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================ -->
+    <!-- Privacy Policy -->
+    <section class="page-section" id="privacy">
+        <div class="container">
+            <div class="section-title">
+                <h2>🔒 <span class="accent">سياسة الخصوصية</span></h2>
+                <p>آخر تحديث: أكتوبر 2026</p>
+            </div>
+            <div class="content-box" style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9">
+                <h3>البيانات التي نجمعها</h3>
+                <ul style="padding-inline-start:20px">
+                    <li>البريد الإلكتروني عند التسجيل (ضروري للحساب).</li>
+                    <li>مفتاح API بصيغة مُشفّرة (SHA-256) — لا نحتفظ بالنص الأصلي.</li>
+                    <li>سجل استخدام يومي (عدد الطلبات) لاحتساب الحصص.</li>
+                    <li>عنوان IP يُسجَّل مؤقتاً بواسطة مزود الاستضافة لأغراض الحماية.</li>
+                </ul>
+                <h3 style="margin-top:16px">ما لا نجمعه</h3>
+                <ul style="padding-inline-start:20px">
+                    <li>لا نحتفظ بمحتوى الملفات التي تحوّلها عبر API.</li>
+                    <li>لا نبيع أو نشارك بياناتك مع أي طرف ثالث.</li>
+                    <li>لا نستخدم ملفات تعريف ارتباط للتتبع الإعلاني.</li>
+                </ul>
+                <h3 style="margin-top:16px">حقوقك</h3>
+                <ul style="padding-inline-start:20px">
+                    <li>طلب حذف حسابك وكل بياناتك في أي وقت.</li>
+                    <li>الحصول على نسخة من بياناتك.</li>
+                </ul>
+                <p style="margin-top:16px">للتواصل: <a href="#" onclick="navigate('contact')" style="color:var(--accent)">صفحة التواصل</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms of Service -->
+    <section class="page-section" id="terms">
+        <div class="container">
+            <div class="section-title">
+                <h2>📜 <span class="accent">شروط الاستخدام</span></h2>
+                <p>آخر تحديث: أكتوبر 2026</p>
+            </div>
+            <div class="content-box" style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9">
+                <h3>1. الاستخدام المسموح</h3>
+                <p>تستخدم Tools Forge لأغراض قانونية فقط. يُمنع:</p>
+                <ul style="padding-inline-start:20px">
+                    <li>محاولة اختراق الخدمة أو تجاوز الحصص.</li>
+                    <li>إعادة بيع الـ API دون اتفاق مكتوب.</li>
+                    <li>إرسال محتوى ضار أو مخالف للقوانين.</li>
+                </ul>
+                <h3 style="margin-top:16px">2. الحصص والحدود</h3>
+                <p>كل خطة لها حد شهري وحد للطلبات في الدقيقة. تجاوز الحد يُوقف الطلبات مؤقتاً.</p>
+                <h3 style="margin-top:16px">3. الإلغاء</h3>
+                <p>يمكنك إلغاء اشتراكك في أي وقت. تبقى الخدمة فعّالة حتى نهاية الفترة المدفوعة.</p>
+                <h3 style="margin-top:16px">4. إخلاء المسؤولية</h3>
+                <p>نقدّم الخدمة "كما هي". لا نضمن دقة النتائج أو خلوّها من الأخطاء. لا نتحمل مسؤولية أي خسائر مباشرة أو غير مباشرة.</p>
+                <h3 style="margin-top:16px">5. التعديلات</h3>
+                <p>قد نُحدّث هذه الشروط. سنُعلن التغييرات هنا. استمرارك في الاستخدام = موافقة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Refund Policy -->
+    <section class="page-section" id="refund">
+        <div class="container">
+            <div class="section-title">
+                <h2>💵 <span class="accent">سياسة الاسترداد</span></h2>
+                <p>آخر تحديث: أكتوبر 2026</p>
+            </div>
+            <div class="content-box" style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9">
+                <h3>ضمان 14 يوماً</h3>
+                <p>إذا لم تكن راضياً عن الخدمة خلال <b>14 يوماً</b> من الاشتراك الأول، يمكنك طلب استرداد كامل.</p>
+                <h3 style="margin-top:16px">شروط الاسترداد</h3>
+                <ul style="padding-inline-start:20px">
+                    <li>يجب أن تكون استخدمت أقل من 20% من حصة الخطة.</li>
+                    <li>لا يُطبَّق الاسترداد على الاشتراكات المتجددة (فقط الأولى).</li>
+                    <li>الاسترداد يُعاد بنفس طريقة الدفع (USDT على نفس الشبكة).</li>
+                    <li>مدة المعالجة: 3-7 أيام عمل.</li>
+                </ul>
+                <h3 style="margin-top:16px">الحالات غير القابلة للاسترداد</h3>
+                <ul style="padding-inline-start:20px">
+                    <li>استخدام يتجاوز 20% من الحصة.</li>
+                    <li>انتهاك شروط الاستخدام (اختراق، إعادة بيع).</li>
+                    <li>طلبات بعد 14 يوماً من الاشتراك.</li>
+                </ul>
+                <p style="margin-top:16px">لطلب استرداد: <a href="#" onclick="navigate('contact')" style="color:var(--accent)">تواصل معنا</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support / FAQ -->
+    <section class="page-section" id="support">
+        <div class="container">
+            <div class="section-title">
+                <h2>❓ <span class="accent">الدعم والأسئلة الشائعة</span></h2>
+                <p>إجابات سريعة لأكثر الأسئلة تكراراً</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>كيف أحصل على مفتاح API؟</h3>
+                <p>سجّل من <a href="/dashboard.html" style="color:var(--accent)">لوحة التحكم</a>، ثم تبويب "مفاتيح API" → "إنشاء". يظهر المفتاح مرة واحدة فقط.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>نسيت مفتاح API. ماذا أفعل؟</h3>
+                <p>لا يمكن استرجاع المفتاح (نحتفظ ببصمة فقط). أنشئ مفتاحاً جديداً وألغِ القديم.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>تجاوزت حصتي. متى تُصفَّر؟</h3>
+                <p>الحصص تُحسب شهرياً (UTC). تُصفَّر أول يوم من الشهر التالي تلقائياً.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>ما هي الشبكات المدعومة للدفع؟</h3>
+                <p>TRC20 (USDT على Tron) — الأرخص والأسرع. سيُضاف ERC20/BEP20 لاحقاً.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>هل يمكنني ترقية خطتي في منتصف الشهر؟</h3>
+                <p>نعم. تُحسب الفترة المتبقية تناسبياً عند الترقية.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9;margin-bottom:12px">
+                <h3>الخدمة لا تستجيب. ماذا أفعل؟</h3>
+                <p>تحقق أولاً من <a href="https://smart-data-converter.onrender.com/health" target="_blank" style="color:var(--accent)">حالة الخدمة</a>. إذا استمرت المشكلة، تواصل معنا.</p>
+            </div>
+
+            <div style="background:rgba(47,184,255,.05);padding:20px;border-radius:12px;line-height:1.9">
+                <h3>لم تجد إجابتك؟</h3>
+                <p><a href="#" onclick="navigate('contact')" style="color:var(--accent)">تواصل معنا مباشرة</a> — نرد خلال 24 ساعة.</p>
             </div>
         </div>
     </section>
