@@ -132,6 +132,7 @@
     await loadKeys();
     await loadUsage();
     await loadPayments();
+    await loadPlans();
   }
 
   async function logout() {
@@ -331,12 +332,103 @@
     }
   }
 
+  // ---------- Load: Plans ----------
+  async function loadPlans() {
+    try {
+      const data = await apiCall("GET", "/v1/plans");
+      const plans = data.plans || [];
+      const monthly = plans.filter((p) => p.billing_period === "monthly");
+      const desired = window.TF_DESIRED_PLAN || "";
+
+      if (!monthly.length) {
+        $("plans-list").innerHTML = '<p class="muted">لا توجد خطط متاحة حالياً.</p>';
+        return;
+      }
+
+      $("plans-list").innerHTML = monthly.map((p) => {
+        const isFree = p.name === "free";
+        const highlight = desired.startsWith(p.name) ? "border:2px solid var(--accent);" : "";
+        const yearly = plans.find((y) => y.name === p.name && y.billing_period === "yearly");
+        const yearlyText = yearly ? `<div style="font-size:.8rem;color:var(--muted);margin-top:4px">أو ${yearly.price_usd}$ سنوياً</div>` : "";
+
+        return `
+          <div class="key-row" style="${highlight} margin-bottom:10px;">
+            <div class="meta">
+              <b>${esc(p.display_name)} — ${p.price_usd}$/شهر</b>
+              <small>${p.max_requests} طلب/شهر · ${p.rate_limit_per_min} طلب/دقيقة</small>
+              ${yearlyText}
+            </div>
+            <div>
+              ${isFree
+                ? '<span class="pill ok">مفعّلة</span>'
+                : `<button class="btn btn-sm" data-subscribe="${esc(p.id)}" data-period="monthly">اشترك شهري</button>`}
+            </div>
+          </div>`;
+      }).join("");
+
+      // Wire subscribe buttons
+      document.querySelectorAll("[data-subscribe]").forEach((btn) => {
+        btn.addEventListener("click", () => startSubscription(btn.dataset.subscribe, btn.dataset.period));
+      });
+    } catch (e) {
+      $("plans-list").innerHTML = `<div class="alert alert-err">فشل تحميل الخطط: ${esc(e.message)}</div>`;
+    }
+  }
+
+  async function startSubscription(planId, billingPeriod) {
+    try {
+      showAlert(dashAlert, "🔄 جاري إنشاء طلب الدفع...", "warn");
+      const data = await apiCall("POST", "/v1/payments/create", {
+        jwt: currentSession.access_token,
+        body: { plan_id: planId, billing_period: billingPeriod },
+      });
+
+      const html = `
+        <b>✅ تم إنشاء طلب الدفع.</b>
+        <div style="margin-top:8px">
+          <div>المبلغ: <b>${data.amount_usd} USD</b> (${esc(data.currency)})</div>
+          <div>الشبكة: ${esc(data.network || "—")}</div>
+          <div>العنوان: <code class="mono" style="word-break:break-all">${esc(data.address || "—")}</code></div>
+          <div style="margin-top:8px">
+            <a href="${esc(data.pay_url || "#")}" target="_blank" class="btn btn-sm" style="text-decoration:none;">فتح صفحة الدفع →</a>
+          </div>
+        </div>`;
+      showAlert(dashAlert, html, "ok");
+      await loadPayments();
+    } catch (e) {
+      showAlert(dashAlert, "❌ " + esc(e.message), "err");
+    }
+  }
+
   // ---------- Init ----------
+  // Handle ?plan= URL parameter (from landing pricing buttons)
+  function getPlanFromURL() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("plan"); // e.g. "basic-monthly", "pro-monthly"
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function openTab(tabName) {
+    const btn = document.querySelector(`[data-dtab="${tabName}"]`);
+    if (btn) btn.click();
+  }
+
   (async function init() {
     const { data } = await sb.auth.getSession();
     if (data && data.session) {
       currentSession = data.session;
       await enterDashboard();
+
+      // If ?plan= present, open payments tab and highlight desired plan
+      const planFromURL = getPlanFromURL();
+      if (planFromURL) {
+        openTab("payments");
+        // Store for later use in payments render
+        window.TF_DESIRED_PLAN = planFromURL;
+      }
     }
 
     sb.auth.onAuthStateChange((_event, session) => {
