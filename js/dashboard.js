@@ -54,9 +54,32 @@
 
     let data = null;
     try { data = await r.json(); } catch (_) {}
+
+    // Handle 401 (session expired) — sign out and prompt re-login
+    if (r.status === 401) {
+      // Avoid infinite loop: only sign out if we were in dashboard
+      if (currentSession) {
+        currentSession = null;
+        try { await sb.auth.signOut(); } catch (_) {}
+        authView.classList.remove("hidden");
+        dashView.classList.add("hidden");
+        headerActions.innerHTML = "";
+        showAlert(alertSlot,
+          "⚠️ انتهت صلاحية الجلسة. يرجى تسجيل الدخول من جديد.",
+          "warn");
+      }
+      const detail = (data && (data.detail || data.message)) || "انتهت الجلسة";
+      const err = new Error(detail);
+      err.status = 401;
+      err.handled = true;
+      throw err;
+    }
+
     if (!r.ok) {
       const detail = (data && (data.detail || data.message)) || `HTTP ${r.status}`;
-      throw new Error(detail);
+      const err = new Error(detail);
+      err.status = r.status;
+      throw err;
     }
     return data;
   }
@@ -188,6 +211,7 @@
           <small class="muted">${pct}% مستخدم</small>
         </div>`;
     } catch (e) {
+      if (e.handled) return;
       showAlert(dashAlert, "❌ فشل تحميل البيانات: " + esc(e.message), "err");
     }
   }
@@ -262,6 +286,7 @@
       await loadKeys();
       await loadOverview();
     } catch (e) {
+      if (e.handled) return;
       showAlert(dashAlert, "❌ " + esc(e.message), "err");
     } finally {
       btn.disabled = false;
@@ -275,6 +300,7 @@
       showAlert(dashAlert, "✅ تم إلغاء المفتاح", "ok");
       await loadKeys();
     } catch (e) {
+      if (e.handled) return;
       showAlert(dashAlert, "❌ " + esc(e.message), "err");
     }
   }
@@ -396,6 +422,7 @@
       showAlert(dashAlert, html, "ok");
       await loadPayments();
     } catch (e) {
+      if (e.handled) return;
       showAlert(dashAlert, "❌ " + esc(e.message), "err");
     }
   }
